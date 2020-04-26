@@ -1,0 +1,12 @@
+# Carthage
+Carthage
+
+# xcode
+*.xccheckout
+*.moved-aside
+*.xcuserstate
+*.xcscmblueprint
+*.xcuserdatad
+*.xcbkptlist
+*.xcuserstate
+.DS_Store
