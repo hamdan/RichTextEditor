@@ -537,8 +537,17 @@ RE.getRelativeCaretYPosition = function() {
     var y = 0;
     var sel = window.getSelection();
     if (sel.rangeCount) {
+        
         var range = sel.getRangeAt(0);
-        var needsWorkAround = (range.startOffset == 0)
+        var span = document.createElement('span');
+        // hack preventing selection of elements
+        range.collapse(false);
+        range.insertNode(span);
+        var topPosition = span.offsetTop;
+        span.parentNode.removeChild(span);
+        
+       // var range = sel.getRangeAt(0);
+        var needsWorkAround = (topPosition.startOffset == 0)
         /* Removing fixes bug when node name other than 'div' */
         // && range.startContainer.nodeName.toLowerCase() == 'div');
         if (needsWorkAround) {
