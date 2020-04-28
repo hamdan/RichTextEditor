@@ -56,6 +56,7 @@ public enum RichEditorDefaultOption: RichEditorOption {
     case video
     case link
     case table
+    case emptySpaceBetweenActions
     
     public static let all: [RichEditorDefaultOption] = [
         .paragraph,
@@ -108,6 +109,7 @@ public enum RichEditorDefaultOption: RichEditorOption {
         case .video: return IconType.video.icon
         case .link: return IconType.link.icon
         case .table: return IconType.grid.icon
+        case .emptySpaceBetweenActions: return nil
         }
     }
     
@@ -139,6 +141,7 @@ public enum RichEditorDefaultOption: RichEditorOption {
         case .video: return NSLocalizedString("Video", comment: "")
         case .link: return NSLocalizedString("Link", comment: "")
         case .table: return NSLocalizedString("Table", comment: "")
+        case .emptySpaceBetweenActions: return ""
         }
     }
     

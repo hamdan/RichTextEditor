@@ -35,7 +35,14 @@ class ViewController: UIViewController, RichEditorViewControllerDelegate {
     }
     
     @objc func buttonClicked() {
-        let controller = RichEditorViewController(html: prevHtml, delegate: self)
+        let redos = RichEditorDefaultOption.self
+        let space = redos.emptySpaceBetweenActions
+        let options = [redos.undo, space , redos.redo, space,
+                       redos.bold, space , redos.italic, space,
+                       redos.underline, space, redos.header(1), space,
+                       redos.header(2), space, redos.header(3), space,
+                       redos.orderedList, space, redos.unorderedList]
+        let controller = RichEditorViewController(html: prevHtml, delegate: self, options: options)
         let controllerNav = UINavigationController(rootViewController: controller)
         present(controllerNav, animated: true)
     }

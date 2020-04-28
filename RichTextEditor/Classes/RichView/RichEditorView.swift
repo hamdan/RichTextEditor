@@ -177,7 +177,7 @@ internal let DefaultInnerLineHeight: Int = 28
     // Called by the UITapGestureRecognizer when the user taps the view
     @objc private func viewWasTapped() {
         if !webView.isFirstResponder {
-            focus()
+           // focus()
             let point = tapRecognizer.location(in: webView)
             focus(at: point)
         }
@@ -230,8 +230,8 @@ extension RichEditorView {
                         offset = CGPoint(x: 0, y: (visiblePosition + lineHeight) - scrollView.bounds.height + scrollView.contentOffset.y)
                     } else if visiblePosition < 0 {
                         // Visible caret position is above what is currently visible
-                        var amount = scrollView.contentOffset.y + visiblePosition
-                        amount = amount < 0 ? 0 : amount
+                        let amount = scrollView.contentOffset.y + visiblePosition
+                        //amount = amount < 0 ? 0 : amount
                         offset = CGPoint(x: scrollView.contentOffset.x, y: amount)
                     }
                     

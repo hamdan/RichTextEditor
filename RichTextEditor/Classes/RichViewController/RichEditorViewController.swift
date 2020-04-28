@@ -16,10 +16,12 @@ public final class RichEditorViewController: UIViewController {
     public var delegate: RichEditorViewControllerDelegate?
     public var getHtml: String?
     var richTextEditor: RichEditorView?
+    let options: [RichEditorDefaultOption]
     let html: String
-    public init(html: String, delegate: RichEditorViewControllerDelegate? = nil) {
+    public init(html: String, delegate: RichEditorViewControllerDelegate? = nil, options: [RichEditorDefaultOption] = RichEditorDefaultOption.all) {
         self.html = html
         self.delegate = delegate
+        self.options = options
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -30,7 +32,7 @@ public final class RichEditorViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        let toolbar = RichEditorToolbar(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 44), delegate: self)
+        let toolbar = RichEditorToolbar(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 44), delegate: self, options: options)
         let richTextEditor = RichEditorView(frame: self.view.frame, delegate: self, editingEnabled: true, toolbar: toolbar)
         self.richTextEditor = richTextEditor
         self.view.addSubview(richTextEditor)
@@ -98,6 +100,7 @@ extension RichEditorViewController: RichEditorToolbarDelegate {
         case .video: break
         case .link: insertLink()
         case .table: richTextEditor?.insertTable(width: 4, height: 4)
+        case .emptySpaceBetweenActions: break
         }
     }
     

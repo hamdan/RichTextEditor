@@ -233,6 +233,7 @@ extension RichEditorView {
     }
     
     public func focus(at: CGPoint) {
+        KeyboardHandlers.allowDisplayingKeyboardWithoutUserAction()
         executeJS(.focus(at: at))
     }
     

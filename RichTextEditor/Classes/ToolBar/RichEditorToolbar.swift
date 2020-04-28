@@ -10,7 +10,7 @@ import UIKit
 
 // RichEditorToolbarDelegate is a protocol for the RichEditorToolbar.
 // Used to receive actions that need extra work to perform (eg. display some UI)
- public protocol RichEditorToolbarDelegate {
+public protocol RichEditorToolbarDelegate {
     func actions(_ toolbar: RichEditorToolbar, action: RichEditorDefaultOption)
 }
 
@@ -33,8 +33,8 @@ import UIKit
     
     
     public convenience init(frame: CGRect,
-                delegate: RichEditorToolbarDelegate? = nil,
-                options: [RichEditorDefaultOption] = RichEditorDefaultOption.all) {
+                            delegate: RichEditorToolbarDelegate? = nil,
+                            options: [RichEditorDefaultOption] = RichEditorDefaultOption.all) {
         self.init(frame: frame)
         self.delegate = delegate
         self.options = options
@@ -43,7 +43,7 @@ import UIKit
     }
     
     public override init(frame: CGRect) {
-       toolbarScroll = UIScrollView()
+        toolbarScroll = UIScrollView()
         toolbar = UIToolbar(frame: frame)
         backgroundToolbar = UIToolbar(frame: frame)
         super.init(frame: frame)
