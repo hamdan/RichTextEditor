@@ -8,20 +8,23 @@
 
 import UIKit
 
- public protocol RichEditorViewControllerDelegate {
+public protocol RichEditorViewControllerDelegate {
     func exportHtml(_ html: String)
+    func richEditorDismiss()
 }
 public final class RichEditorViewController: UIViewController {
-
+    
     public var delegate: RichEditorViewControllerDelegate?
     public var getHtml: String?
     var richTextEditor: RichEditorView?
     let options: [RichEditorDefaultOption]
+    let backgroundColor: UIColor
     let html: String
-    public init(html: String, delegate: RichEditorViewControllerDelegate? = nil, options: [RichEditorDefaultOption] = RichEditorDefaultOption.all) {
+    public init(html: String, delegate: RichEditorViewControllerDelegate? = nil, options: [RichEditorDefaultOption] = RichEditorDefaultOption.all, backgroundColor: UIColor = .white) {
         self.html = html
         self.delegate = delegate
         self.options = options
+        self.backgroundColor = backgroundColor
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -37,10 +40,14 @@ public final class RichEditorViewController: UIViewController {
         self.richTextEditor = richTextEditor
         self.view.addSubview(richTextEditor)
         self.richTextEditor?.html = html
-        
+        self.richTextEditor?.backgroundColor = backgroundColor
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
-        target: self,
-        action: #selector(pressSave))
+                                                            target: self,
+                                                            action: #selector(pressSave))
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
+                                                           target: self,
+                                                           action: #selector(pressCancel))
     }
     
     @objc func pressSave() {
@@ -51,22 +58,25 @@ public final class RichEditorViewController: UIViewController {
         }
         
     }
+    @objc func pressCancel() {
+        delegate?.richEditorDismiss()
+    }
 }
 
 extension RichEditorViewController: RichEditorDelegate {
     public func richEditor(_ editor: RichEditorView, actions: RichEditorActions) {
         switch actions {
         case let .contentDidChange(content):
-             // This is meant to act as a text cap
-             if content.count > 40000 {
-                 editor.html = getHtml ?? ""
-             } else {
-                 getHtml = content
-             }
+            // This is meant to act as a text cap
+            if content.count > 40000 {
+                editor.html = getHtml ?? ""
+            } else {
+                getHtml = content
+            }
         case .didLoad, .tookFocus, .lostFocus: break
         case let .heightDidChange(height): print(height)
         case let .shouldInteractWith(url): print(url)
-        case .subActions(_): break
+        case .subActions(_), .viewDidTap: break
         }
     }
 }
@@ -201,5 +211,10 @@ extension RichEditorViewController: RichEditorToolbarDelegate {
             return UIApplication.shared.canOpenURL(url)
         }
         return false
+    }
+}
+
+extension RichEditorViewController: UIAdaptivePresentationControllerDelegate {
+    public func presentationControllerDidAttemptToDismiss(_: UIPresentationController) {
     }
 }

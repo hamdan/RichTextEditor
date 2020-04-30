@@ -17,6 +17,7 @@ public enum RichEditorActions {
     case didLoad
     case lostFocus
     case tookFocus
+    case viewDidTap
 }
 /// RichEditorDelegate defines callbacks for the delegate of the RichEditorView
  public protocol RichEditorDelegate {
@@ -166,6 +167,7 @@ internal let DefaultInnerLineHeight: Int = 28
         webView.scrollView.bounces = false
         webView.scrollView.delegate = self
         webView.scrollView.clipsToBounds = true
+        webView.isOpaque = false
         addSubview(webView)
         if let filePath = Bundle(for: RichEditorView.self).path(forResource: "rich_editor", ofType: "html") {
             let url = URL(fileURLWithPath: filePath, isDirectory: false)
@@ -176,6 +178,7 @@ internal let DefaultInnerLineHeight: Int = 28
     // MARK: - Responder Handling
     // Called by the UITapGestureRecognizer when the user taps the view
     @objc private func viewWasTapped() {
+        delegate?.richEditor(self, actions: .viewDidTap)
         if !webView.isFirstResponder {
            // focus()
             let point = tapRecognizer.location(in: webView)
